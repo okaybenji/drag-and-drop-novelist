@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title="drag-and-drop novelist"></title>
+  </head>
+  <body>
+    <h1>The Drag-and-Drop Novelist</h1>
+    <div style="float:left">
+      <h2>Novel</h2>
+      <div id="novel" style="width: 640px; height: 480px; border: 1px solid black" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    </div>
+    <div style="float: right">
+      <h2>Words</h2>
+      <div id="words" draggable="true" ondragstart="drag(event)">
+    </div>
+  </body>
+  <script src="words.js"></script>
+  <script>
+    words
+      .map(word => {
+        const div = document.createElement('div');
+        div.innerHTML = word;
+        div.setAttribute('draggable', true);
+        return div;
+      })
+      .forEach(div => document.querySelector('#words').appendChild(div));
+
+    const allowDrop = (event) => {
+      event.preventDefault();
+    };
+
+    const drag = (event) => {
+      event.dataTransfer.setData("text", event.srcElement.innerHTML);
+    };
+
+    const drop = (event) => {
+      event.preventDefault();
+      const word = event.dataTransfer.getData("text");
+      event.target.innerHTML += (word + ' ');
+    };
+  </script>
+</html>
